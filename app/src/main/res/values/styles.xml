@@ -1,0 +1,34 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--日间主题-->
+    <style name="AppDayTheme" parent="AppTheme">
+        <item name="root_view_bg">@color/day_bg_color</item>
+        <item name="text_color">@color/day_tx_color</item>
+        <item name="primary_color">@color/day_primary_color</item>
+    </style>
+
+    <!--夜间主题-->
+    <style name="AppNightTheme" parent="AppTheme">
+        <item name="root_view_bg">@color/night_bg_color</item>
+        <item name="text_color">@color/night_tx_color</item>
+        <item name="primary_color">@color/night_primary_color</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+</resources>
