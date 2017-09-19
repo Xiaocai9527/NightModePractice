@@ -2,6 +2,7 @@ package com.xiaocai.nightmode;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.jaeger.library.StatusBarUtil;
 import com.xiaocai.nightmode.colorful.Colorful;
 import com.xiaocai.nightmode.colorful.setter.ViewGroupSetter;
 
@@ -27,6 +29,7 @@ public class ItemDetailActivity extends AppCompatActivity
     private SharedPreferences mPref;
     private NestedScrollView scrollView;
     private Colorful colorful;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,9 +38,11 @@ public class ItemDetailActivity extends AppCompatActivity
         if (!mPref.getBoolean(NIGHT, false))
         {
             setTheme(R.style.AppDayTheme);
+            StatusBarUtil.setColor(this, getResources().getColor(R.color.day_primary_color), 0);
         } else
         {
             setTheme(R.style.AppNightTheme);
+            StatusBarUtil.setColor(this, getResources().getColor(R.color.night_primary_color), 0);
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
@@ -55,6 +60,7 @@ public class ItemDetailActivity extends AppCompatActivity
             }
         });
         scrollView = (NestedScrollView) findViewById(R.id.item_detail_container);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
@@ -85,17 +91,18 @@ public class ItemDetailActivity extends AppCompatActivity
                     .commit();
         }
         // 初始化Colorful
-        setupColorful();
+//        setupColorful();
     }
 
     private void setupColorful()
     {
-        ViewGroupSetter setter = new ViewGroupSetter(scrollView, 0);
+        ViewGroupSetter setter = new ViewGroupSetter(scrollView, R.attr.root_view_bg);
+        ViewGroupSetter toolbarSetter = new ViewGroupSetter(collapsingToolbarLayout, R.attr.primary_color);
 //        recyclerViewSetter.childViewTextColor(R.id.content, R.attr.text_color);
 //        recyclerViewSetter.childViewTextColor(R.id.id, R.attr.text_color);
         colorful = new Colorful.Builder(this)
-                .backgroundColor(R.id.item_list, R.attr.root_view_bg)
                 .setter(setter)
+                .setter(toolbarSetter)
                 .create();
     }
 

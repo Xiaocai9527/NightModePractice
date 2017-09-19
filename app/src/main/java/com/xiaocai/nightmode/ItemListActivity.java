@@ -10,33 +10,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.xiaocai.nightmode.colorful.Colorful;
 import com.xiaocai.nightmode.colorful.setter.ViewGroupSetter;
 import com.xiaocai.nightmode.dummy.DummyContent;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.List;
 
 /**
- * An activity representing a list of Items. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ItemDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * Created by 肖坤 on 2017/9/12.
+ * 公司：依迅北斗
+ * 邮箱：838494268@qq.com
  */
 public class ItemListActivity extends AppCompatActivity
 {
-
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
     private RecyclerView recyclerView;
     private Colorful colorful;
     private SharedPreferences mPref;
@@ -61,8 +54,7 @@ public class ItemListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        initToolbar();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
@@ -71,8 +63,6 @@ public class ItemListActivity extends AppCompatActivity
             public void onClick(View view)
             {
                 changeThemeWithColorful();
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 
@@ -80,18 +70,42 @@ public class ItemListActivity extends AppCompatActivity
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
 
-        if (findViewById(R.id.item_detail_container) != null)
-        {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
         // 初始化Colorful
         setupColorful();
     }
 
+    /**
+     * 初始化toolbar
+     */
+    private void initToolbar()
+    {
+        toolbar.setTitle(getTitle());
+        toolbar.setOverflowIcon(getResources().getDrawable(R.mipmap.more));
+        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener()
+        {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                switch (item.getItemId())
+                {
+                    case R.id.about:
+                        Toast.makeText(ItemListActivity.this, "关于我", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ItemListActivity.this, AboutActivity.class);
+                        startActivity(intent);
+                        break;
+                    default:
+
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 改变theme
+     */
     private void changeThemeWithColorful()
     {
         if (!mPref.getBoolean(NIGHT, false))
@@ -107,6 +121,9 @@ public class ItemListActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * 初始化
+     */
     private void setupColorful()
     {
         ViewGroupSetter recyclerViewSetter = new ViewGroupSetter(recyclerView, R.attr.root_view_bg);
@@ -156,23 +173,11 @@ public class ItemListActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v)
                 {
-                    if (mTwoPane)
-                    {
-                        Bundle arguments = new Bundle();
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        ItemDetailFragment fragment = new ItemDetailFragment();
-                        fragment.setArguments(arguments);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.item_detail_container, fragment)
-                                .commit();
-                    } else
-                    {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, ItemDetailActivity.class);
+                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
 
-                        context.startActivity(intent);
-                    }
+                    context.startActivity(intent);
                 }
             });
         }
