@@ -5,6 +5,8 @@
     <attr name="btn_bg" format="reference|color"/>
     <attr name="text_color" format="reference|color"/>
     <attr name="primary_color" format="reference|color"/>
+    <attr name="float_button_color" format="reference|color"/>
+
 
     <declare-styleable name="AbsAboutActivity"
                        tools:ignore="ResourceName">

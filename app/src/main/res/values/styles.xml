@@ -1,5 +1,5 @@
-<resources  xmlns:tools="http://schemas.android.com/tools"
-            tools:ignore="ResourceName">
+<resources xmlns:tools="http://schemas.android.com/tools"
+           tools:ignore="ResourceName">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -14,6 +14,7 @@
         <item name="root_view_bg">@color/day_bg_color</item>
         <item name="text_color">@color/day_tx_color</item>
         <item name="primary_color">@color/day_primary_color</item>
+        <item name="float_button_color">@color/about_page_background</item>
     </style>
 
     <!--夜间主题-->
@@ -21,6 +22,7 @@
         <item name="root_view_bg">@color/night_bg_color</item>
         <item name="text_color">@color/night_tx_color</item>
         <item name="primary_color">@color/night_primary_color</item>
+        <item name="float_button_color">@color/night_tx_color</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
